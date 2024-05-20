@@ -1,0 +1,16 @@
+first_user : 111
+second_user : 222
+first_user : 111
+second_user : 222
+first_user : 111
+second_user : 222
+first_user : тест1
+second_user : test2
+first_user : тест1
+second_user : test2
+first_user : привет
+second_user : привет!
+first_user : как учёба?
+second_user : hello
+first_user : привет
+second_user : ok
