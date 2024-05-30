@@ -33,6 +33,7 @@ public class TestSecond extends JFrame {
         frame = new JFrame("Client Chat");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(300, 500);
+        frame.setBounds(310, 0, 300, 500);
 
         chatHistoryArea = new JTextArea();
         chatHistoryArea.setEditable(false);
@@ -137,36 +138,48 @@ public class TestSecond extends JFrame {
         }
     }
 
+//    private void chatTimer(){
+//        // Вызов метода loadChatHistory каждую 1 секунду с использованием Timer
+//        if (isServerWorking && isChatWorking) {
+//            Timer timer = new Timer(1000, new ActionListener() {
+//                @Override
+//                public void actionPerformed(ActionEvent e) {
+//                    loadChatHistory();
+//                }
+//            });
+//            timer.start(); // Запуск таймера, не безопасная процедура
+//        }
+//    }
+
     private void chatTimer(){
-        // Вызов метода loadChatHistory каждую 1 секунду с использованием Timer
-        if (isServerWorking && isChatWorking) {
-            Timer timer = new Timer(1000, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    loadChatHistory();
-                }
-            });
-            timer.start(); // Запуск таймера, не безопасная процедура
-        }
+        Timer timer = new Timer(1000, e -> updateChatHistory());
+        timer.start();
     }
 
 
-    private void loadChatHistory() {
-        if (logFile.exists()) {
-            StringBuilder history = new StringBuilder();
-            try (BufferedReader reader = new BufferedReader(new FileReader(logFile))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    history.append(line).append("\n");
-                }
-                chatHistoryArea.setText(history.toString());
-                chatHistoryArea.setCaretPosition(chatHistoryArea.getDocument().getLength());
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(frame, "Не удается прочитать историю чата.");
-            }
+
+//    private void loadChatHistory() {
+//        if (logFile.exists()) {
+//            StringBuilder history = new StringBuilder();
+//            try (BufferedReader reader = new BufferedReader(new FileReader(logFile))) {
+//                String line;
+//                while ((line = reader.readLine()) != null) {
+//                    history.append(line).append("\n");
+//                }
+//                chatHistoryArea.setText(history.toString());
+//                chatHistoryArea.setCaretPosition(chatHistoryArea.getDocument().getLength());
+//            } catch (IOException e) {
+//                JOptionPane.showMessageDialog(frame, "Не удается прочитать историю чата.");
+//            }
+//        }
+//    }
+
+    private void updateChatHistory() {
+        if (serverWindow.hasUpdates()) {
+            String history = serverWindow.getChatHistory();
+            chatHistoryArea.setText(history);
         }
     }
-
 
 
 }

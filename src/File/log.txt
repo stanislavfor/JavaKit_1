@@ -14,3 +14,9 @@ first_user : как учёба?
 second_user : hello
 first_user : привет
 second_user : ok
+second_user : приветики
+first_user : да, точно
+first_user : 1111
+first_user : 1111
+second_user : 222
+second_user : 222

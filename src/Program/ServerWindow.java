@@ -5,11 +5,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.net.Socket;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ServerWindow {
     public static JTextArea chatHistoryArea;
     private final File logFile = new File("src/File/log.txt");
     public static boolean isServerWorking;
+    private long lastModified = 0;
+
 
     public ServerWindow() {
 
@@ -40,6 +47,7 @@ public class ServerWindow {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     startServer();
+//                    startServerSocet();
                 }
             });
 
@@ -55,7 +63,7 @@ public class ServerWindow {
     }
 
 
-    protected void startServer() {
+    public void startServer() {
         if (!isServerWorking) {
             isServerWorking = true;
         }
@@ -85,13 +93,33 @@ public class ServerWindow {
     }
 
 
+//    public String getChatHistory() {
+//        StringBuilder history = new StringBuilder();
+//        if (logFile.exists()) {
+//            try (BufferedReader reader = new BufferedReader(new FileReader(logFile))) {
+//                String line;
+//                while ((line = reader.readLine()) != null) {
+//                    chatHistoryArea.append(line + "\n");
+//                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return history.toString();
+//    }
+
+
+    public boolean hasUpdates() {
+        return logFile.lastModified() > lastModified;
+    }
+
     public String getChatHistory() {
         StringBuilder history = new StringBuilder();
         if (logFile.exists()) {
             try (BufferedReader reader = new BufferedReader(new FileReader(logFile))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    chatHistoryArea.append(line + "\n");
+                    history.append(line + "\n");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -99,6 +127,8 @@ public class ServerWindow {
         }
         return history.toString();
     }
+
+
 
 
 }
